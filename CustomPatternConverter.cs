@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using log4net.Util;
 
-namespace Log4Net
+namespace Log4Net.Wrapper
 {
     public class CustomPatternConverter : PatternConverter
     {

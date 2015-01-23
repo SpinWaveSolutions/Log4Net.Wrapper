@@ -1,28 +1,40 @@
 ﻿using System;
 using System.IO;
-using System.Reflection;
 using log4net;
 
-namespace Log4Net
+namespace Log4Net.Wrapper
 {
     public static class Logger
     {
-        private static readonly ILog _instance = LogManager.GetLogger("Log4NetClient");
+        private static readonly ILog Instance = LogManager.GetLogger("Log4Net");
 
         static Logger()
         {
-            string logFilePath = AppDomain.CurrentDomain.BaseDirectory + "\\Log4Net.Config";
+            string logFilePath = AppDomain.CurrentDomain.BaseDirectory + @"Log4Net.Config";
             FileInfo finfo = new FileInfo(logFilePath);
-            GlobalContext.Properties["LogFolder"] = Path.GetDirectoryName(Assembly.GetCallingAssembly().CodeBase) + "\\Log4Net\\";
+            GlobalContext.Properties["LogFolder"] = AppDomain.CurrentDomain.BaseDirectory + @"Logs\";
             log4net.Config.XmlConfigurator.ConfigureAndWatch(finfo); 
         }
 
-        public static ILog Instance
+        public static void Info(object message)
         {
-            get
-            {
-                return _instance;
-            }
+            Instance.Info(message);
         }
+
+        public static void Debug(object message)
+        {
+            Instance.Debug(message);
+        }
+
+        public static void Error(Exception exception, object message = null)
+        {
+            Instance.Error(message, exception);
+        }
+
+        public static void Fatal(Exception exception, object message = null)
+        {
+            Instance.Fatal(message, exception);
+        }
+
     }
 }
